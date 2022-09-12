@@ -1,5 +1,6 @@
 import express from "express";
 import morgan from "morgan";
+import cors from "cors";
 import bodyParser from "body-parser";
 import { productsRouter } from "./productsRouter";
 import { citiesRouter } from "./citiesRouter";
@@ -12,7 +13,7 @@ const app = express();
 
 app.use(morgan(NODE_ENV === "development" ? "dev" : "common"));
 app.use(bodyParser.json());
-
+app.use(cors());
 app.use("/products", productsRouter);
 app.use("/cities", citiesRouter);
 

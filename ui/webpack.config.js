@@ -37,6 +37,7 @@ module.exports = {
     assetModuleFilename: "images/[hash][ext][query]",
   },
   devServer: {
+    historyApiFallback: true,
     static: {
       directory: path.resolve(__dirname, "./dist"),
     },
