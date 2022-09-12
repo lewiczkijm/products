@@ -4,4 +4,13 @@
   header {
     background: $dark;
   }
+  .full-height {
+    min-height: calc(100vh - 60px);
+  }
+  .imagePlaceholder {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    background: $gray-600;
+  }
 }

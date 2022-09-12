@@ -1,6 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+
+import { deleteProduct, getProducts } from "../queries";
+import { Paginator } from "./components/paginator";
+import { SearchString } from "./components/searchString";
+import { Table } from "./components/table";
 
 export const Products: React.FC = ({}) => {
+  const [page, setPage] = useState(1);
+  const [searchStr, setSearchStr] = useState("");
+  useEffect(() => setPage(1), [searchStr]);
+
+  const queryClient = useQueryClient();
+
+  const { data, isFetched, error } = useQuery(["products", page, searchStr], () => getProducts(page, searchStr));
+
+  const { mutate } = useMutation(deleteProduct, {
+    onSuccess: () => queryClient.invalidateQueries(["products"]),
+  });
+
   return (
     <div>
       <header>
@@ -17,18 +35,18 @@ export const Products: React.FC = ({}) => {
                   </li>
                 </ul>
 
-                <form className="d-flex" role="search">
-                  <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                  <button className="btn btn-outline-success" type="submit">
-                    Search
-                  </button>
-                </form>
+                <SearchString onChange={setSearchStr} />
               </div>
             </div>
           </nav>
         </div>
       </header>
-      <div className="container-lg py-3">1234</div>
+      <div className="container-lg py-3 d-flex flex-column full-height">
+        <div className="flex-grow-1">
+          <Table data={data?.value || []} onDelete={mutate} />
+        </div>
+        <Paginator maxVal={data?.pages || 1} value={page} onChange={setPage} />
+      </div>
     </div>
   );
 };
