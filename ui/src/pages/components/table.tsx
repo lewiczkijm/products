@@ -24,7 +24,7 @@ export const Table: React.FC<TableProps> = ({ data, onDelete }) => {
             <td>{product.images ? <img src={product.images[0]} width="40" height="40" /> : <span className="imagePlaceholder"></span>}</td>
             <td>{product.name}</td>
             <td>
-              <span className={`badge ${product.status === "active" ? "text-bg-success" : "text-bg-secondary"}`}>{product.status}</span>
+              <span className={`badge ${product.status ? "text-bg-success" : "text-bg-secondary"}`}>{product.status ? "active" : "inactive"}</span>
             </td>
             <td>{typeof product.price === "number" ? product.price : "-"}</td>
             <td>

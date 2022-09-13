@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+import { Link } from "react-router-dom";
 
 import { deleteProduct, getProducts } from "../queries";
 import { Paginator } from "./components/paginator";
@@ -29,9 +30,9 @@ export const Products: React.FC = ({}) => {
               <div className="d-flex flex-grow-1">
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                   <li className="nav-item">
-                    <a className="nav-link active" aria-current="page" href="/product">
+                    <Link className="nav-link active" aria-current="page" to="/product">
                       Новый
-                    </a>
+                    </Link>
                   </li>
                 </ul>
 
@@ -46,6 +47,7 @@ export const Products: React.FC = ({}) => {
           <Table data={data?.value || []} onDelete={mutate} />
         </div>
         <Paginator maxVal={data?.pages || 1} value={page} onChange={setPage} />
+        <div>Some fotter</div>
       </div>
     </div>
   );

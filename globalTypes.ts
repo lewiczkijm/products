@@ -1,13 +1,17 @@
 export type productType = {
   name: string;
   id: string;
-  price?: number;
+  price?: number | {};
   images?: string[];
-  status: "active" | "passive";
+  status: boolean;
 };
 
-export type cityType = {
-  name: string;
-  price?: string;
-  id: string;
+export type cityType = { [U: string]: number | undefined };
+
+export const emptyPtoduct: productType = {
+  name: "",
+  id: "",
+  price: undefined,
+  images: [],
+  status: false,
 };

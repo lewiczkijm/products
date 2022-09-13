@@ -13,4 +13,13 @@
     height: 40px;
     background: $gray-600;
   }
+  .prices {
+    input {
+      box-shadow: none;
+    }
+  }
+  .priceForm {
+    flex-basis: 150px;
+    flex-shrink: 0;
+  }
 }
