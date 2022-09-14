@@ -1,15 +1,25 @@
 import { v4 as uuid } from "uuid";
 import { NotFoundError } from "./errors";
 import { productType } from "../../globalTypes";
+import fs, { promises as fsx } from "fs";
+import { createHash } from "crypto";
+
+let data = {};
+const PROD_PER_PAGE = 5;
+
+const isFile = fs.existsSync(__dirname + "/dump._json");
+if (isFile) {
+  const file = fs.readFileSync(__dirname + "/dump._json");
+  data = JSON.parse(file.toString());
+}
 
 class Cities {
+  toJSON() {
+    return this.cities;
+  }
   private cities: {};
-  constructor() {
-    this.cities = {
-      Киев: 0,
-      Чернигов: 0,
-      Odessa: 0,
-    };
+  constructor(values?: {}) {
+    this.cities = values || {};
   }
 
   getCites = () => {
@@ -20,33 +30,26 @@ class Cities {
   };
 }
 
-export const cities = new Cities();
+//@ts-ignore
+export const cities = new Cities(data.cities);
 
 class Products {
   private products: productType[];
-  constructor() {
-    this.products = [
-      { name: "Ковер", images: ["325425.png", "42545.png"], status: true, price: 500, id: "25255" },
-      { name: "Хомяк", images: ["tghrth.png", "42545.png"], status: true, price: 120, id: "4674" },
-      {
-        name: "Бокал",
-        images: ["ulul.png", "42545.png"],
-        status: false,
-        price: {
-          Киев: 14,
-          Чернигов: 27,
-        },
-        id: "4774",
-      },
-      { name: "Генератор", images: ["47567.png", "42545.png"], status: true, price: 23456, id: "5474" },
-      { name: "шорты", status: false, id: "4757" },
-      { name: "Резиновые сапоги", images: ["ry665.png", "42545.png"], status: true, price: 220, id: "377646" },
-      { name: "Надувная лодка", images: ["pp.png", "42545.png"], status: true, price: 13356, id: "47868" },
-    ];
+  toJSON() {
+    return this.products;
+  }
+  constructor(value?: []) {
+    this.products = value || [];
   }
 
   getProducts(page: number, search?: string) {
-    return { value: this.products, pages: this.products.length };
+    let products;
+    if (search) products = this.products.filter((product) => product.name.search(search) !== -1 || (product.description && product.description.search(search) !== -1));
+    else products = this.products;
+    const start = (page - 1) * PROD_PER_PAGE;
+    const end = page * PROD_PER_PAGE;
+    const len = Math.ceil(products.length / PROD_PER_PAGE);
+    return { value: products.slice(start, end), pages: len };
   }
 
   getProduct(id: string) {
@@ -56,11 +59,24 @@ class Products {
   addProduct(product: productType) {
     product.id = uuid();
     this.products.push(product);
+    return product.id;
   }
   editProduct(id: string, product: productType) {
     const editedProductIndex = this.products.findIndex((product) => product.id === id);
     if (editedProductIndex === -1) throw NotFoundError;
     this.products[editedProductIndex] = product;
+  }
+
+  async uploadMedia(id: string, file: Express.Multer.File) {
+    const editedProduct = this.products.find((product) => product.id === id);
+    if (!editedProduct) throw NotFoundError;
+    const hash = createHash("sha256");
+    hash.update(file.buffer);
+    const name = `/media/${hash.digest("hex")}_${file.originalname.replace(" ", "")}`;
+    await fsx.writeFile(`${__dirname}${name}`, file.buffer);
+    if (!editedProduct.images) editedProduct.images = [];
+    editedProduct.images.push(name);
+    return name;
   }
 
   deleteProduct(id: string) {
@@ -70,4 +86,5 @@ class Products {
   }
 }
 
-export const products = new Products();
+//@ts-ignore
+export const products = new Products(data.products);

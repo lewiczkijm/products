@@ -1,8 +1,8 @@
 import axios from "axios";
-
+export const BASE_URL = `http://${window.location.hostname}:8081`;
 // fetching data api
 const Axios = axios.create({
-  baseURL: `http://${window.location.hostname}:8081`,
+  baseURL: BASE_URL,
 });
 
 export { Axios };

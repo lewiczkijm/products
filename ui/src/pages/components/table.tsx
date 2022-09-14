@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { productType } from "../../../../globalTypes";
+import { BASE_URL } from "../../utils/Axios";
 
 export type TableProps = {
   data: productType[];
@@ -21,7 +22,9 @@ export const Table: React.FC<TableProps> = ({ data, onDelete }) => {
       <tbody>
         {data.map((product) => (
           <tr key={product.id}>
-            <td>{product.images ? <img src={product.images[0]} width="40" height="40" /> : <span className="imagePlaceholder"></span>}</td>
+            <td>
+              <Link to={`/product/${product.id}`}>{product.images ? <img src={BASE_URL + product.images[0]} width="40" height="40" /> : <span className="imagePlaceholder"></span>}</Link>
+            </td>
             <td>{product.name}</td>
             <td>
               <span className={`badge ${product.status ? "text-bg-success" : "text-bg-secondary"}`}>{product.status ? "active" : "inactive"}</span>

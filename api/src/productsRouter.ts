@@ -1,6 +1,9 @@
-import express from "express";
+import express, { Request } from "express";
+import multer from "multer";
 import { products } from "./data";
-import { NotFoundError } from "./errors";
+import { NotFoundError, PostDataError } from "./errors";
+
+const upload = multer();
 
 const router = express.Router();
 router.get("/", (req, res, next) => {
@@ -21,9 +24,25 @@ router.post(["/:id", "/"], (req, res, next) => {
   // TODO add files parse
   try {
     const { id } = req.params;
-    if (id) products.editProduct(id as string, req.body);
-    else products.addProduct(req.body);
-    res.send("ok");
+    if (id) {
+      products.editProduct(id as string, req.body);
+      res.send("ok");
+    } else {
+      const id = products.addProduct(req.body);
+      res.send(id);
+    }
+  } catch (e) {
+    next(e);
+  }
+});
+
+router.post("/media/:id", upload.single("media"), async (req: Request, res, next) => {
+  try {
+    const { id } = req.params;
+    const file = req.file;
+    if (!file) throw PostDataError;
+    const filename = await products.uploadMedia(id, file);
+    res.send(filename);
   } catch (e) {
     next(e);
   }

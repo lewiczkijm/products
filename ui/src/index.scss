@@ -22,4 +22,46 @@
     flex-basis: 150px;
     flex-shrink: 0;
   }
+  .media {
+    $size-1: 100%;
+    $size-2: 50%;
+    $size-3: 33%;
+    $size: 140px;
+    .images {
+      display: flex;
+      flex-wrap: wrap;
+      div,
+      img {
+        width: -webkit-fill-available;
+      }
+      & > .lg:first-child,
+      & > .md:first-child,
+      & > .sm:first-child,
+      .lg {
+        width: $size-1 !important;
+        height: auto;
+      }
+      .md {
+        width: $size-2 !important;
+        height: auto;
+      }
+      .sm {
+        width: $size-3 !important;
+        height: auto;
+      }
+    }
+
+    .fileLoader {
+      border: 2px dashed $gray-300;
+      min-height: 60px;
+      color: $gray-400;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      input {
+        display: none;
+      }
+    }
+  }
 }

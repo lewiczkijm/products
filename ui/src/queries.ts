@@ -20,6 +20,14 @@ export const saveProduct = async ({ product, id }: { product: productType; id?: 
   return res.data;
 };
 
+export const sendProductMediaFile = async ({ id, file }: { id: string; file: File }) => {
+  const formData = new FormData();
+  formData.append("media", file);
+  const path = `/products/media/${id}`;
+  const res = await Axios.post(path, formData, { headers: { "Content-Type": "multipart/form-data" } });
+  return res.data;
+};
+
 export const getProductOfId = async (id: string): Promise<productType> => {
   const res = await Axios.get(`/products/${id}`);
   return res.data;

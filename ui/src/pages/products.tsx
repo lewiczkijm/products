@@ -3,8 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { Link } from "react-router-dom";
 
 import { deleteProduct, getProducts } from "../queries";
-import { Paginator } from "./components/paginator";
-import { SearchString } from "./components/searchString";
+import { Paginator, SearchString } from "./components";
 import { Table } from "./components/table";
 
 export const Products: React.FC = ({}) => {

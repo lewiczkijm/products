@@ -38,8 +38,8 @@ module.exports = {
   },
   devServer: {
     //historyApiFallback: true,
-    hot: true,
-    liveReload: true,
+    // hot: true,
+    // liveReload: true,
     static: {
       directory: path.resolve(__dirname, "./dist"),
     },
