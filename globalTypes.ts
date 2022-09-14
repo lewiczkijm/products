@@ -1,6 +1,7 @@
 export type productType = {
   name: string;
   id: string;
+  description?: string;
   price?: number | {};
   images?: string[];
   status: boolean;

@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { emptyPtoduct, productType } from "../../../globalTypes";
 import { addCity, deleteProduct, getCities, getProductOfId, saveProduct } from "../queries";
+import JoditEditor from "jodit-react";
 
 export const Product: React.FC = ({}) => {
   const navigate = useNavigate();
@@ -86,6 +87,17 @@ export const Product: React.FC = ({}) => {
                   </label>
                   <input className="form-control" id="productName" value={productValue.name} onChange={(e) => setProductValue((value) => ({ ...value, name: e.target.value }))} />
                 </div>
+                <JoditEditor
+                  value={productValue.description || ""}
+                  onBlur={(newContent) => setProductValue((val) => ({ ...val, description: newContent }))}
+                  // @ts-ignore
+                  config={{
+                    height: 300,
+                    statusbar: false,
+                    disablePlugins: "about",
+                    buttons: "bold,italic,underline,strikethrough,ul,ol,font,paragraph,lineHeight,superscript,subscript,image,hr,table,link,symbols,indent,outdent,brush",
+                  }}
+                />
               </div>
             </div>
             <div className="card mt-4">
@@ -95,7 +107,7 @@ export const Product: React.FC = ({}) => {
                     Удалить
                   </button>
                 )}
-                <button onClick={() => saveCurrentProduct.mutate({ product: productValue, id })} className="btn btn-success">
+                <button onClick={() => saveCurrentProduct.mutate({ product: productValue, id })} disabled={!productValue.name} className="btn btn-success">
                   Сохранить
                 </button>
               </div>
