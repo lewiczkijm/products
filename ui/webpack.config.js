@@ -5,11 +5,12 @@ var HtmlWebpackPlugin = require("html-webpack-plugin");
 module.exports = {
   mode: process.env.NODE_ENV || "development",
   entry: "./src/index.tsx",
-  //   plugins: [
-  //     new HtmlWebpackPlugin({
-  //       title: "Products",
-  //     }),
-  //   ],
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: "./src/index.html",
+      inject: false,
+    }),
+  ],
   module: {
     rules: [
       {
@@ -37,7 +38,15 @@ module.exports = {
     assetModuleFilename: "images/[hash][ext][query]",
   },
   devServer: {
-    //historyApiFallback: true,
+    historyApiFallback: {
+      index: "index.html",
+      rewrites: [
+        { from: /\/.*\/.*/, to: "/" },
+        { from: /\/.*/, to: "/" },
+        //   { from: "/product*", to: "index.html" },
+        //   { from: "/product", to: "index.html" },
+      ],
+    },
     // hot: true,
     // liveReload: true,
     static: {
