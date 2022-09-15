@@ -44,7 +44,10 @@ class Products {
 
   getProducts(page: number, search?: string) {
     let products;
-    if (search) products = this.products.filter((product) => product.name.search(search) !== -1 || (product.description && product.description.search(search) !== -1));
+    if (search)
+      products = this.products.filter(
+        (product) => product.name.toLowerCase().search(search.toLowerCase()) !== -1 || (product.description && product.description.toLowerCase().search(search.toLocaleLowerCase()) !== -1)
+      );
     else products = this.products;
     const start = (page - 1) * PROD_PER_PAGE;
     const end = page * PROD_PER_PAGE;
@@ -64,7 +67,7 @@ class Products {
   editProduct(id: string, product: productType) {
     const editedProductIndex = this.products.findIndex((product) => product.id === id);
     if (editedProductIndex === -1) throw NotFoundError;
-    this.products[editedProductIndex] = product;
+    this.products[editedProductIndex] = { ...this.products[editedProductIndex], ...product };
   }
 
   async uploadMedia(id: string, file: Express.Multer.File) {

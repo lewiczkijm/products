@@ -15,7 +15,13 @@ export const FileLoader: React.FC<FileLoaderProps> = ({ onChange, load, classNam
 
   return (
     <div onClick={handleClick} onDrop={handleDrop} onDragOver={(e) => e.preventDefault()} className={`fileLoader ${className}`}>
-      {load ? <></> : <span>Загрузить файл</span>}
+      {load ? (
+        <div className="spinner-border" style={{ width: "3rem", height: "3rem" }} role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      ) : (
+        <span>Загрузить файл</span>
+      )}
       <input ref={fileRef} onChange={(e) => e.target.files && onChange(e.target.files[0])} type="file" />
     </div>
   );

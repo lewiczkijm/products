@@ -35,45 +35,53 @@ export const PriceComponent: React.FC<{ price?: number | {}; setPrice: (price?: 
         </label>
       </div>
       {priceType ? (
-        <div className="pb-3">
-          <ul className="list-group prices">
-            {prices.map((name) => (
-              <li key={name} className="list-group-item py-0 align-items-center">
-                <label className="d-flex">
-                  <div className="priceForm">{name}</div>
-                  <div>
-                    <input
-                      type="text"
-                      /* @ts-ignore */
-                      value={(price && price[name]) || undefined}
-                      /* @ts-ignore */
-                      onChange={(e) => setPrice({ ...price, [name]: Number(e.target.value) })}
-                      className="form-control form-control-sm"
-                    />
-                  </div>
-                </label>
-              </li>
-            ))}
-          </ul>
-          <div className="d-flex pt-2">
-            <div className="pe-1">
-              <input value={cityName} onChange={(e) => setCityName(e.target.value)} className="form-control form-control-sm" />
-            </div>
-            <div className="flex-shrink-0">
-              <button
-                disabled={!cityName || cityName.length < 3}
-                onClick={() => {
-                  addCityMutation.mutate(cityName);
-                  setCityName("");
-                }}
-                type="submit"
-                className="btn btn-sm btn-primary"
-              >
-                Добавить город
-              </button>
+        cities.isLoading || addCityMutation.isLoading ? (
+          <div style={{ height: 250 }} className="d-flex align-items-center justify-content-center">
+            <div className="spinner-border" style={{ width: "3rem", height: "3rem" }} role="status">
+              <span className="visually-hidden">Loading...</span>
             </div>
           </div>
-        </div>
+        ) : (
+          <div className="pb-3">
+            <ul className="list-group prices">
+              {prices.map((name) => (
+                <li key={name} className="list-group-item py-0 align-items-center pe-0">
+                  <label className="d-flex">
+                    <div className="priceForm">{name}</div>
+                    <div>
+                      <input
+                        type="text"
+                        /* @ts-ignore */
+                        value={(price && price[name]) || undefined}
+                        /* @ts-ignore */
+                        onChange={(e) => setPrice({ ...price, [name]: Number(e.target.value) })}
+                        className="form-control form-control-sm"
+                      />
+                    </div>
+                  </label>
+                </li>
+              ))}
+            </ul>
+            <div className="d-flex pt-2">
+              <div className="pe-1">
+                <input value={cityName} onChange={(e) => setCityName(e.target.value)} className="form-control form-control-sm" />
+              </div>
+              <div className="flex-shrink-0">
+                <button
+                  disabled={!cityName || cityName.length < 3}
+                  onClick={() => {
+                    addCityMutation.mutate(cityName);
+                    setCityName("");
+                  }}
+                  type="submit"
+                  className="btn btn-sm btn-primary"
+                >
+                  Добавить город
+                </button>
+              </div>
+            </div>
+          </div>
+        )
       ) : (
         <div className="pb-3">
           <label htmlFor="price" className="form-label">
