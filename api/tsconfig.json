@@ -3,14 +3,13 @@
     "experimentalDecorators": true,
     "target": "es6",
     "module": "commonjs",
-    "declaration": true,
     "esModuleInterop": true,
-    "sourceMap": true,
     "strict": true,
     "noImplicitAny": false,
     "outDir": "./dist",
     "skipLibCheck": true
   },
+  "include": ["./src"],
   "exclude": ["node_modules", "**/__tests__/*", "dist"],
   "compileOnSave": true
 }

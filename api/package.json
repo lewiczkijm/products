@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "build": "tsc && \"mkdirp /dist/api/src/media\"",
+    "build": "tsc",
     "dev": "nodemon ./src/index.ts",
-    "start": "node ./dist/api/src",
+    "start": "node ./dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

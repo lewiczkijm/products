@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { productType } from "../../../../globalTypes";
+import { productType } from "../../globalTypes";
 import { BASE_URL } from "../../utils/Axios";
 
 export type TableProps = {

@@ -1,4 +1,4 @@
-import { cityType, productType } from "../../globalTypes";
+import { cityType, productType } from "./globalTypes";
 import { Axios } from "./utils/Axios";
 
 export const getProducts = async (page: number = 1, searchStr?: string) => {

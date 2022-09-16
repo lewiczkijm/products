@@ -1,0 +1,18 @@
+services:
+  ui:
+    build: ui/
+    networks:
+      - products
+  api:
+    build: api/
+    networks:
+      - products
+  proxy:
+    build: proxy/
+    networks:
+      - products
+    ports:
+      - 80:80
+networks:
+  products:
+    driver: bridge

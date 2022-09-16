@@ -10,16 +10,17 @@ import fs from "fs";
 
 const PORT = process.env.PORT || 8081;
 const NODE_ENV = process.env.NODE_ENV || "development";
+const BASE_URL = process.env.NODE_ENV === "production" ? "/api" : "";
 
 const app = express();
 
 app.use(morgan(NODE_ENV === "development" ? "dev" : "common"));
 app.use(bodyParser.json());
 app.use(cors());
-app.use("/media", express.static(__dirname + "/media"));
-app.use("/products", productsRouter);
-app.use("/cities", citiesRouter);
-app.post("/saveData", async (req, res) => {
+app.use(`${BASE_URL}/media`, express.static(__dirname + "/media"));
+app.use(`${BASE_URL}/products`, productsRouter);
+app.use(`${BASE_URL}/cities`, citiesRouter);
+app.post(`${BASE_URL}/saveData`, async (req, res) => {
   const data = JSON.stringify({ cities, products });
   const r = fs.writeFileSync(__dirname + "/dump._json", data);
   res.send({});

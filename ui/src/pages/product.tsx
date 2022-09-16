@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useParams, useNavigate } from "react-router-dom";
-import { emptyPtoduct, productType } from "../../../globalTypes";
+import { emptyPtoduct, productType } from "../globalTypes";
 import { deleteProduct, getProductOfId, saveProduct } from "../queries";
 import JoditEditor from "jodit-react";
 import { MediaComponent } from "./components";

@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 import { NotFoundError } from "./errors";
-import { productType } from "../../globalTypes";
+import { productType } from "./globalTypes";
 import fs, { promises as fsx } from "fs";
 import { createHash } from "crypto";
 
